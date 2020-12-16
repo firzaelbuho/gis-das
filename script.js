@@ -1,39 +1,101 @@
-var map_97df312068c040e79d4274d90dd98ae2 = L.map(
-    "map_97df312068c040e79d4274d90dd98ae2",
-    {
-        center: [-6.96, 110.41],
-        crs: L.CRS.EPSG3857,
-        zoom: 14,
-        zoomControl: true,
-        preferCanvas: false,
+
+
+let myMap = ""
+
+initMap()
+// setUpMap()
+
+fetch("https://firzaelbuho.github.io/api/gisdas.json")
+    .then(response => response.json())
+    .then(data =>
+
+        setUpMap(data)
+    )
+
+
+
+
+function initMap() {
+    myMap = L.map(
+        "map",
+        {
+            center: [-6.902122397865429, 109.52591907491608],
+            crs: L.CRS.EPSG3857,
+            zoom: 14,
+            zoomControl: true,
+            preferCanvas: false,
+        }
+    );
+    var tile_layer_6b5a2bb7cf3c4cd8982ebc20bff6254c = L.tileLayer(
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        { "attribution": "Data by \u0026copy; \u003ca href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false }
+    ).addTo(myMap);
+
+}
+
+function setUpMap(data) {
+    for (var i = 0; i < data.length; i++) {
+
+        var myData = data[i]
+
+
+
+        var marker = L.marker(
+            [myData.latitude, myData.longitude],
+            {}
+        ).addTo(myMap);
+
+
+        var custom_icon = L.icon({ "iconSize": 32, "iconUrl": "img/biru.png" });
+        marker.setIcon(custom_icon);
+
+
+        var popup = L.popup({ "maxWidth": "100%" });
+
+        var popupHtml = `<div id="html_077d38fa84594d43bafb4e032b5c88df" 
+                            style="width: 400px; height: 100.0%;">
+                            <small>30-04-2020 18:39 WIB</small>
+                            <h4><b>${myData.nama}</b></h4>
+                            <img 
+                                class="py-3" width = "250px" height = "auto"
+                                src="https://lh3.googleusercontent.com/proxy/GUnQWFAjDiJ-J9_E8jd589J3mEljzo0lC59Ld4LcwUoi7zhEvJppvWdCq6gxNpMP3A49hzEr7-nZmIyLGSveGMV-1f5YDnhaA0bF4oVSPdjTFePsiHboznV9EdHfO7fhVgsnGlEx6M03QdMSV61kUg"/>
+                            <table cellpadding="20" width="400px" id="popupTable">
+                                <tr>
+                                   <td>Panjang</td>
+                                   <td> : </td>
+                                   <td>${myData.panjang} km</td>
+                                </tr>
+                                <tr>
+                                   <td>Luas</td>
+                                   <td> : </td>
+                                   <td>${myData.luaskm2} km2</td>
+                                </tr>
+                                <tr>
+                                    <td>Debit</td>
+                                    <td> : </td>
+                                    <td>${myData.debitHilirM3s} m3/s</td>
+                                </tr>
+                                <tr>
+                                    <td>Kemiringan</td>
+                                    <td> : </td>
+                                    <td>${myData.kemiringan}</td>
+                                </tr>
+                                <tr>
+                                    <td>kota/kab</td>
+                                    <td> : </td>
+                                    <td>${myData.kota}</td>
+                                </tr>
+                                <tr>
+                                    <td>Kecamatan</td>
+                                    <td> : </td>
+                                    <td>${myData.kecamatan}</td>
+                                </tr>
+                            </table>
+                        </div>`
+        var html = $(popupHtml)[0];
+        popup.setContent(html);
+
+
+        marker.bindPopup(popup);
     }
-);
-
-
-
-
-
-var tile_layer_6b5a2bb7cf3c4cd8982ebc20bff6254c = L.tileLayer(
-    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-    { "attribution": "Data by \u0026copy; \u003ca href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false }
-).addTo(map_97df312068c040e79d4274d90dd98ae2);
-
-
-var marker_be9cd6b61c1a4176b2ccb299ecd9cb55 = L.marker(
-    [-6.96, 110.41],
-    {}
-).addTo(map_97df312068c040e79d4274d90dd98ae2);
-
-
-var custom_icon_abc9906a181142c2904d155288ea3f04 = L.icon({ "iconSize": 35, "iconUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Coat_of_arms_of_Aceh.svg/1200px-Coat_of_arms_of_Aceh.svg.png" });
-marker_be9cd6b61c1a4176b2ccb299ecd9cb55.setIcon(custom_icon_abc9906a181142c2904d155288ea3f04);
-
-
-var popup_a9e6c09619224b76adb8ed52fcb97f10 = L.popup({ "maxWidth": "100%" });
-
-
-var html_077d38fa84594d43bafb4e032b5c88df = $(`<div id="html_077d38fa84594d43bafb4e032b5c88df" style="width: 100.0%; height: 100.0%;"><small>30-04-2020 18:39 WIB</small><h4><b>Aceh</b></h4><table><tr><th style='color:red'>Confirmed&nbsp;&nbsp;</th><th style='color:green'>Recovered&nbsp;&nbsp;</th><th style='color:black'>Deaths&nbsp;&nbsp;</th></tr><tr><td><center><b style='color:red'>10</b></center></td><td><center><b style='color:green'>4</b></center></td><td><center><b>1</b></center></td></tr></table></div>`)[0];
-popup_a9e6c09619224b76adb8ed52fcb97f10.setContent(html_077d38fa84594d43bafb4e032b5c88df);
-
-
-marker_be9cd6b61c1a4176b2ccb299ecd9cb55.bindPopup(popup_a9e6c09619224b76adb8ed52fcb97f10);
+}
